@@ -1,0 +1,9 @@
+build/
+cmake-build-*/
+.idea/
+.vscode/
+*.o
+*.a
+*.out
+.DS_Store
+_to_delete/
