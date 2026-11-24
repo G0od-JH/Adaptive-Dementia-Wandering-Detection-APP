@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 화면은 전부 Compose로 그린다. 여기서는 창 배경과 상태바만 정한다. -->
+    <style name="Theme.ADWD" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/adwd_purple</item>
+    </style>
+</resources>

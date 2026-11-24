@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ADWD 로고: 집 모양 안으로 점선 발자국이 돌아온다. 108dp 캔버스 가운데 64 단위 로고를 놓았다. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:translateX="22" android:translateY="22">
+        <path
+            android:pathData="M19,31 L32,19.5 L45,31 V46 H19 Z"
+            android:strokeColor="#65DCD5"
+            android:strokeWidth="4"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M10,54 m-1.5,0 a1.5,1.5 0,1 0,3 0 a1.5,1.5 0,1 0,-3 0 M15.5,52.6 m-1.5,0 a1.5,1.5 0,1 0,3 0 a1.5,1.5 0,1 0,-3 0 M21.2,52.2 m-1.5,0 a1.5,1.5 0,1 0,3 0 a1.5,1.5 0,1 0,-3 0 M26,49 m-1.5,0 a1.5,1.5 0,1 0,3 0 a1.5,1.5 0,1 0,-3 0 M29.5,45.4 m-1.5,0 a1.5,1.5 0,1 0,3 0 a1.5,1.5 0,1 0,-3 0"
+            android:fillColor="#D9FFF4" />
+        <path
+            android:pathData="M32,40 m-4,0 a4,4 0,1 0,8 0 a4,4 0,1 0,-8 0"
+            android:fillColor="#D9FFF4" />
+    </group>
+</vector>
