@@ -35,7 +35,7 @@ PatternProfile PatternProfile::coldStart() {
     for (int h = thresholds::kNightEndHour; h < thresholds::kNightStartHour; ++h) {
         outingHours[h] = true;
     }
-    return PatternProfile(0, {}, outingHours, hours(1));
+    return PatternProfile(0, {}, outingHours, thresholds::kDefaultOutingDuration);
 }
 
 bool PatternProfile::isReliable() const { return learnedDays_ >= thresholds::kMinLearningDays; }
@@ -45,8 +45,27 @@ bool PatternProfile::isUsualOutingHour(int hour) const {
     return usualOutingHours_[hour];
 }
 
+PatternProfile PatternProfile::withKnownPlaces(std::vector<KnownPlace> places) const {
+    for (const auto& place : places) {
+        if (std::isnan(place.x) || std::isnan(place.y)) {
+            throw std::invalid_argument("등록 장소 좌표가 NaN: " + place.name);
+        }
+    }
+    PatternProfile copy = *this;
+    copy.knownPlaces_ = std::move(places);
+    return copy;
+}
+
+double PatternProfile::distanceToNearestKnownPlace(const LocationPoint& p) const {
+    double best = p.distanceFromHome();
+    for (const auto& place : knownPlaces_) {
+        best = std::min(best, std::hypot(p.x() - place.x, p.y() - place.y));
+    }
+    return best;
+}
+
 double PatternProfile::distanceToUsualRoute(const LocationPoint& p) const {
-    double best = std::numeric_limits<double>::infinity();
+    double best = distanceToNearestKnownPlace(p);
     for (CellKey key : usualCells_) {
         double cx = (cellX(key) + 0.5) * thresholds::kGridCellM;
         double cy = (cellY(key) + 0.5) * thresholds::kGridCellM;

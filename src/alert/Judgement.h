@@ -12,6 +12,7 @@ namespace wander {
 struct Judgement {
     AlertLevel level = AlertLevel::Normal;
     std::vector<RuleResult> results;
+    bool muted = false;   // 경보 끄기(괜찮아요·알고 있는 외출·보호자 해제) 중이라 단계를 안 올렸는지
 
     bool isAbnormal() const {
         for (const auto& r : results) {
