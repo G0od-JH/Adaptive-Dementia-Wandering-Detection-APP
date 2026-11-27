@@ -1,6 +1,8 @@
 package com.adwd.app.ui.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -11,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.adwd.app.ui.components.GuardianTab
+import com.adwd.app.ui.components.TrajectoryMap
 import com.adwd.app.ui.model.AlertLevel
 import com.adwd.app.ui.model.FakeData
 import com.adwd.app.ui.screens.demo.SimControlScreen
@@ -117,7 +120,7 @@ fun AdwdNavHost(
                 reason = state.reason,
                 onOpenAlert = { level ->
                     when (level) {
-                        AlertLevel.DANGER -> nav.navigate(Routes.G_MISSING)
+                        AlertLevel.EMERGENCY -> nav.navigate(Routes.G_MISSING)
                         AlertLevel.WARNING -> nav.navigate("${Routes.G_DETAIL}/0")
                         else -> onTab(GuardianTab.ALERTS)
                     }
@@ -125,6 +128,9 @@ fun AdwdNavHost(
                 onBell = { onTab(GuardianTab.ALERTS) },
                 onTab = ::onTab,
                 onOpenDemo = { nav.navigate(Routes.SIM) },
+                mapContent = {
+                    TrajectoryMap(state.track, state.current, Modifier.fillMaxSize(), accent = state.level.color)
+                },
             )
         }
         composable(Routes.G_ALERTS) {
@@ -147,7 +153,20 @@ fun AdwdNavHost(
             )
         }
         composable(Routes.G_MISSING) {
-            MissingReportScreen(onBack = { nav.popBackStack() })
+            val cur = state.current
+            // 최근 위치 기록: 오늘 경로에서 10분 간격으로 최근 4개
+            val recent = state.track.filter { it.time.substring(15, 16) == "0" }.takeLast(4).reversed()
+                .map { it.hhmm to coordLabel(it.x, it.y) }
+            MissingReportScreen(
+                onBack = { nav.popBackStack() },
+                onResolve = { vm.dismissAlert(); nav.popBackStack() },
+                lastSeenTime = cur?.hhmm ?: "-",
+                lastSeenPlace = cur?.let { coordLabel(it.x, it.y) + " (모의 좌표)" } ?: "위치 기록 없음",
+                recent = recent,
+                mapContent = {
+                    TrajectoryMap(state.track.takeLast(60), cur, Modifier.fillMaxSize(), accent = AlertLevel.EMERGENCY.color, pathColor = AlertLevel.EMERGENCY.color)
+                },
+            )
         }
         composable(Routes.G_SETTINGS) {
             SettingsScreen(
@@ -155,6 +174,7 @@ fun AdwdNavHost(
                 placeCount = state.places.count { !it.isHome },
                 onHomeLocation = { nav.navigate(Routes.G_HOME_LOC) },
                 onPlaces = { nav.navigate(Routes.G_PLACES) },
+                onLogout = { nav.navigate(Routes.LOGIN) { popUpTo(0) { inclusive = true } } },
             )
         }
 
@@ -202,7 +222,7 @@ fun AdwdNavHost(
             if (state.level == AlertLevel.NORMAL) {
                 ElderHomeScreen(isLinked = state.isLinked, onOpenDemo = { nav.navigate(Routes.SIM) })
             } else {
-                ElderGuideScreen(level = state.level, onImOkay = vm::dismissAlert)
+                ElderGuideScreen(level = state.level)
             }
         }
 
@@ -213,9 +233,16 @@ fun AdwdNavHost(
                 onScenario = vm::setScenario,
                 onSpeed = vm::setSpeed,
                 onTogglePlay = vm::togglePlay,
-                onLevel = { vm.onAlertChanged(it, state.reason) },
+                onLevel = vm::forceLevel,
                 onBack = { nav.popBackStack() },
             )
         }
     }
+}
+
+/** 모의 좌표(m, 집 = 0,0)를 "집에서 동쪽 350m · 북쪽 600m" 처럼 읽기 쉽게 */
+private fun coordLabel(x: Double, y: Double): String {
+    val ew = if (x >= 0) "동쪽" else "서쪽"
+    val ns = if (y >= 0) "북쪽" else "남쪽"
+    return "집에서 $ew ${kotlin.math.abs(x).toInt()}m · $ns ${kotlin.math.abs(y).toInt()}m"
 }

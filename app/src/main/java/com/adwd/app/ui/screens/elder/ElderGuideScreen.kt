@@ -3,7 +3,6 @@ package com.adwd.app.ui.screens.elder
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,9 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.adwd.app.ui.components.AdwdIcons
 import com.adwd.app.ui.components.AlertBadge
 import com.adwd.app.ui.components.ElderCallButton
@@ -46,10 +43,10 @@ data class GuideStep(
 
 /**
  * 10 / 10-2 / 10-3 어르신 귀가 안내. 단계마다 바탕색, 원 색, 화살표 색, 배지만 바뀐다.
- * "괜찮아요, 산책 중이에요"를 누르면 경보가 풀리고 09 홈으로 돌아간다.
+ * 어르신은 경보를 직접 끄지 않는다. 1·2단계는 평소 동선으로 돌아오면 자동으로, 3단계는 보호자가 해제한다.
  */
 @Composable
-fun ElderGuideScreen(level: AlertLevel, onImOkay: () -> Unit, step: GuideStep = GuideStep()) {
+fun ElderGuideScreen(level: AlertLevel, step: GuideStep = GuideStep()) {
     val context = LocalContext.current
     Column(
         Modifier.fillMaxSize().background(level.elderBackground).statusBarsPadding().navigationBarsPadding()
@@ -81,12 +78,5 @@ fun ElderGuideScreen(level: AlertLevel, onImOkay: () -> Unit, step: GuideStep = 
 
         Spacer(Modifier.height(18.dp))
         ElderCallButton(onClick = { context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:"))) })
-        Spacer(Modifier.height(24.dp))
-        Text(
-            "괜찮아요, 산책 중이에요",
-            style = AdwdType.TitleSection.copy(textDecoration = TextDecoration.Underline, fontSize = 18.sp),
-            color = AdwdColors.Slate,
-            modifier = Modifier.align(Alignment.CenterHorizontally).clip(RoundedCornerShape(8.dp)).clickable(onClick = onImOkay).padding(8.dp),
-        )
     }
 }

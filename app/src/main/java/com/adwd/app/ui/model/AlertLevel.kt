@@ -25,7 +25,7 @@ enum class AlertLevel(
     NORMAL(0, "정상", AdwdColors.Level0, AdwdColors.Purple, AdwdColors.Mint, AdwdColors.Teal, AdwdColors.Purple),
     CAUTION(1, "주의", AdwdColors.Level1, AdwdColors.Purple, AdwdColors.Mint, AdwdColors.Teal, AdwdColors.Purple),
     WARNING(2, "경고", AdwdColors.Level2, AdwdColors.Purple, AdwdColors.WarnBg, AdwdColors.Level2, AdwdColors.Purple),
-    DANGER(3, "위험", AdwdColors.Level3, AdwdColors.White, AdwdColors.DangerBg, AdwdColors.Level3, AdwdColors.White);
+    EMERGENCY(3, "긴급", AdwdColors.Level3, AdwdColors.White, AdwdColors.DangerBg, AdwdColors.Level3, AdwdColors.White);
 
     /** "2 경고" 처럼 숫자와 이름을 같이 쓴 표기 */
     val title: String get() = "$step $label"
@@ -35,7 +35,7 @@ enum class AlertLevel(
             NORMAL -> AdwdIcons.CheckCircle
             CAUTION -> AdwdIcons.Warning
             WARNING -> AdwdIcons.Bell
-            DANGER -> AdwdIcons.Danger
+            EMERGENCY -> AdwdIcons.Danger
         }
 
     companion object {

@@ -78,7 +78,7 @@ fun OnboardingScreen(onStart: (UserRole) -> Unit) {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text("(필수) 위치정보 수집·이용 동의", style = AdwdType.BodySmallStrong, color = AdwdColors.Purple)
                 Text(
-                    "평소 동선을 배우기 위해 위치 기록을 30일간 저장합니다. 보호자에게만 공유됩니다.",
+                    "처음 7일 동안 평소 동선을 배우기 위해 위치 기록을 저장합니다. 보호자에게만 공유됩니다.",
                     style = AdwdType.BodySmall, color = AdwdColors.Slate,
                 )
             }
