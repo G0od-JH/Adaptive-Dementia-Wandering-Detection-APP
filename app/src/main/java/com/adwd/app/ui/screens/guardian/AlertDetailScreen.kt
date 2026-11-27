@@ -55,6 +55,10 @@ fun AlertDetailScreen(
     onBack: () -> Unit,
     onMissingReport: () -> Unit,
     onDismiss: () -> Unit,
+    /** 지도 자리 (코드A 지도 패널). 경보 단계 색을 받아 벗어난 경로를 그 색으로 그린다 */
+    mapContent: @Composable (accent: androidx.compose.ui.graphics.Color) -> Unit = { accent ->
+        MockMap(MapVariant.DEVIATION, Modifier.fillMaxSize(), accent = accent)
+    },
 ) {
     val context = LocalContext.current
     val level = detail.level
@@ -102,7 +106,7 @@ fun AlertDetailScreen(
 
             Spacer(Modifier.height(14.dp))
             Box(Modifier.fillMaxWidth().height(150.dp).clip(RoundedCornerShape(14.dp))) {
-                MockMap(MapVariant.DEVIATION, Modifier.fillMaxSize(), accent = level.color)
+                mapContent(level.color)
             }
 
             Spacer(Modifier.height(14.dp))

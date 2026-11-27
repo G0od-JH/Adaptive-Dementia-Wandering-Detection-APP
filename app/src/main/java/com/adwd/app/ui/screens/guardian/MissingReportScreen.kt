@@ -53,6 +53,7 @@ fun MissingReportScreen(
     lastSeenTime: String = "14:58",
     lastSeenPlace: String = "○○동 큰길 버스정류장 부근 (모의 좌표)",
     recent: List<Pair<String, String>> = FakeData.recentPlaces,
+    /** 지도 자리 (코드A 지도 패널) */
     mapContent: @Composable () -> Unit = { MockMap(MapVariant.LAST_SEEN, Modifier.fillMaxSize()) },
 ) {
     val context = LocalContext.current

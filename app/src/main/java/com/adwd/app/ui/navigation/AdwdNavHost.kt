@@ -12,6 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import com.adwd.app.ui.components.DemoMapPanel
 import com.adwd.app.ui.components.GuardianTab
 import com.adwd.app.ui.components.TrajectoryMap
 import com.adwd.app.ui.model.AlertLevel
@@ -150,6 +153,7 @@ fun AdwdNavHost(
                 onBack = { nav.popBackStack() },
                 onMissingReport = { nav.navigate(Routes.G_MISSING) },
                 onDismiss = { vm.dismissAlert(); nav.popBackStack() },
+                mapContent = { accent -> DemoMapPanel(MapPanelMode.DEVIATION, state.scenario, Modifier.fillMaxSize(), accent = accent) },
             )
         }
         composable(Routes.G_MISSING) {
