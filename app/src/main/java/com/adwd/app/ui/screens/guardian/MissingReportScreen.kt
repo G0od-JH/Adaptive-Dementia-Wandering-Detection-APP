@@ -50,6 +50,8 @@ fun MissingReportScreen(
     lastSeenTime: String = "14:58",
     lastSeenPlace: String = "○○동 큰길 버스정류장 부근 (모의 좌표)",
     recent: List<Pair<String, String>> = FakeData.recentPlaces,
+    /** 지도 자리 (코드A 지도 패널) */
+    mapContent: @Composable () -> Unit = { MockMap(MapVariant.LAST_SEEN, Modifier.fillMaxSize()) },
 ) {
     val context = LocalContext.current
     val clipboard = LocalClipboardManager.current
@@ -76,7 +78,7 @@ fun MissingReportScreen(
         }
         Spacer(Modifier.height(8.dp))
         Box(Modifier.fillMaxWidth().height(180.dp).clip(RoundedCornerShape(12.dp))) {
-            MockMap(MapVariant.LAST_SEEN, Modifier.fillMaxSize())
+            mapContent()
         }
         Spacer(Modifier.height(8.dp))
         Text(lastSeenPlace, style = AdwdType.Caption, color = AdwdColors.Slate)

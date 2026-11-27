@@ -32,6 +32,12 @@ android {
     buildFeatures {
         compose = true
     }
+    // 코드A 모의데이터: 저장소 루트 data/ 폴더를 assets로 사용 (normal/, scenario/ 경로로 읽음)
+    sourceSets {
+        getByName("main") {
+            assets.srcDir(rootProject.file("data"))
+        }
+    }
 }
 
 dependencies {
