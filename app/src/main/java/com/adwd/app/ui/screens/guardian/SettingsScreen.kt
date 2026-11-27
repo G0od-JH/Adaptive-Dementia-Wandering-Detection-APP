@@ -42,11 +42,13 @@ fun SettingsScreen(
     placeCount: Int = 0,
     onHomeLocation: () -> Unit = {},
     onPlaces: () -> Unit = {},
+    /** TODO(민규 User 모델): 저장된 로그인 정보 지우기 */
+    onLogout: () -> Unit = {},
 ) {
     val targets = listOf(
         AlertLevel.CAUTION to "주의 · 어르신 화면에 귀가 안내",
         AlertLevel.WARNING to "경고 · 보호자 알림",
-        AlertLevel.DANGER to "위험 · 실종 신고 정보 만들기",
+        AlertLevel.EMERGENCY to "긴급 · 실종 신고 정보 만들기",
     )
     // TODO(민규): 설정 저장
     val enabled = remember { mutableStateListOf(true, true, true) }
@@ -73,6 +75,8 @@ fun SettingsScreen(
         SettingRow(AdwdIcons.Link, "연결된 어르신", "${FakeData.elderId} · ${FakeData.linkCodeSpaced}")
         SettingRow(AdwdIcons.Home, "어르신 집 위치", "›", onClick = onHomeLocation)
         SettingRow(AdwdIcons.Pin, "자주 가는 장소", "${placeCount}곳 ›", onClick = onPlaces)
+        Spacer(Modifier.height(10.dp))
+        SettingRow(AdwdIcons.Logout, "로그아웃", "›", onClick = onLogout)
     }
 }
 

@@ -37,6 +37,7 @@ object AdwdIcons {
     val Link = line("link", "M 10 14 a 4 4 0 0 0 5.7 0 l 3 -3 a 4 4 0 0 0 -5.7 -5.7 l -1 1", "M 14 10 a 4 4 0 0 0 -5.7 0 l -3 3 a 4 4 0 0 0 5.7 5.7 l 1 -1")
     val Settings = line("settings", "M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12", circle(16f, 6f, 2f), circle(10f, 12f, 2f), circle(18f, 18f, 2f))
     val Phone = line("phone", "M 5 4 h 4 l 2 5 -2.5 1.5 a 11 11 0 0 0 5 5 L 15 13 l 5 2 v 4 a 2 2 0 0 1 -2 2 A 16 16 0 0 1 3 6 a 2 2 0 0 1 2 -2 z")
+    val Logout = line("logout", "M 9 21 H 5 a 2 2 0 0 1 -2 -2 V 5 a 2 2 0 0 1 2 -2 h 4", "M16 17l5-5-5-5", "M21 12H9")
     val Lock = line("lock", "M 7 11 h 10 a 2 2 0 0 1 2 2 v 6 a 2 2 0 0 1 -2 2 H 7 a 2 2 0 0 1 -2 -2 v -6 a 2 2 0 0 1 2 -2 z", "M 8 11 V 7 a 4 4 0 0 1 8 0 v 4")
     val Navigate = line("navigate", "M12 3l7 18-7-4-7 4z")
     val Clock = line("clock", circle(12f, 12f, 9f), "M12 7v5l3 2")

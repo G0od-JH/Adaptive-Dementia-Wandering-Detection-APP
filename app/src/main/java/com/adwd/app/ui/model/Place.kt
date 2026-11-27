@@ -5,7 +5,7 @@ import com.adwd.app.ui.components.AdwdIcons
 
 /**
  * 보호자가 처음에 적는 어르신의 집·자주 가는 장소 (콜드 스타트 대비).
- * 평소 동선을 배우는 처음 30일 동안 코드B가 이 장소들을 기준으로 판단한다.
+ * 평소 동선을 배우는 처음 7일 동안 코드B가 이 장소들을 기준으로 판단한다.
  * TODO(민규 데이터 모델 / 코드B): 확정된 Place 모델로 교체
  */
 enum class PlaceType(val label: String, val icon: ImageVector) {
