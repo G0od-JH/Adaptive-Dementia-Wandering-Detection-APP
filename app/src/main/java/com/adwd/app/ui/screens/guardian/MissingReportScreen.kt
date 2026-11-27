@@ -40,13 +40,16 @@ import com.adwd.app.ui.theme.AdwdColors
 import com.adwd.app.ui.theme.AdwdType
 
 /**
- * 07 실종 신고 정보 (3단계 위험).
+ * 07 실종 신고 정보 (3단계 긴급).
  * 개인정보(사진, 인상착의)는 넣지 않고 마지막 위치와 최근 위치 기록만 보여준다.
- * TODO(코드A): 위치 기록 저장소에서 마지막 위치·최근 기록을 받아오기
+ * 앱에서는 재생 중인 모의데이터의 마지막 위치·최근 기록을 넣는다 (AdwdNavHost).
+ * TODO(코드A): MissingReportGenerator가 생기면 그 결과로 교체
  */
 @Composable
 fun MissingReportScreen(
     onBack: () -> Unit,
+    /** 보호자가 상황을 확인하고 "괜찮아요"를 누름 → 엔진 resolve() (3단계는 수동 해제만) */
+    onResolve: () -> Unit,
     lastSeenTime: String = "14:58",
     lastSeenPlace: String = "○○동 큰길 버스정류장 부근 (모의 좌표)",
     recent: List<Pair<String, String>> = FakeData.recentPlaces,
@@ -55,7 +58,7 @@ fun MissingReportScreen(
 ) {
     val context = LocalContext.current
     val clipboard = LocalClipboardManager.current
-    val level = AlertLevel.DANGER
+    val level = AlertLevel.EMERGENCY
 
     Column(
         Modifier.fillMaxSize().background(AdwdColors.White).statusBarsPadding().navigationBarsPadding().padding(horizontal = 18.dp),
@@ -117,6 +120,11 @@ fun MissingReportScreen(
                 modifier = Modifier.weight(1f),
             )
         }
+        Spacer(Modifier.height(8.dp))
+        PrimaryButton(
+            "괜찮아요, 어르신을 찾았어요", onClick = onResolve, container = AdwdColors.Mint, content = AdwdColors.Purple,
+            textStyle = AdwdType.BodySmallStrong.copy(fontSize = 14.sp), height = 44.dp, modifier = Modifier.fillMaxWidth(),
+        )
         Spacer(Modifier.height(16.dp))
     }
 }

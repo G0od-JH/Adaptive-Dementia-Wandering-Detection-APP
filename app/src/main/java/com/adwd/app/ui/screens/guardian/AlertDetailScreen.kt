@@ -44,9 +44,9 @@ import com.adwd.app.ui.theme.AdwdType
 /**
  * 06 경보 상세 (2단계 경고) / 06-1 경보 상세 (1단계 주의).
  * 기록마다 상세가 다르다: 왜 울렸는지(판단 이유), 벗어난 경로, 시간순 기록, 대응 버튼.
- * - 2단계 이상: 전화하기 + 실종 신고 정보
- * - 1단계 주의: 보호자 알림 전 단계라 전화하기만
- * - 이미 끝난 기록(resolved)은 "괜찮아요" 대신 어떻게 끝났는지 보여준다
+ * - 1·2단계: 전화하기만. 평소 동선으로 돌아오면 엔진이 자동으로 해제한다
+ * - 3단계 긴급: 전화하기 + 실종 신고 정보 + "괜찮아요"(보호자 수동 해제)
+ * - 이미 끝난 기록(resolved)은 어떻게 끝났는지 보여준다
  * TODO(코드B): 판단 엔진이 남긴 기록으로 FakeData.alertDetails 교체
  */
 @Composable
@@ -137,16 +137,22 @@ fun AlertDetailScreen(
                 onClick = { context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:"))) },
                 modifier = Modifier.weight(1f),
             )
-            if (level.step >= AlertLevel.WARNING.step) {
+            if (level == AlertLevel.EMERGENCY) {
                 SecondaryButton("실종 신고 정보", onClick = onMissingReport, content = AdwdColors.Level3, textStyle = AdwdType.BodyStrong, height = 52.dp, modifier = Modifier.weight(1f))
             }
         }
         Spacer(Modifier.height(8.dp))
         val resolved = detail.resolved
-        if (resolved == null) {
+        if (resolved == null && level == AlertLevel.EMERGENCY) {
             PrimaryButton(
                 "괜찮아요, 알고 있는 외출이에요", onClick = onDismiss, container = AdwdColors.Mint, content = AdwdColors.Purple,
                 textStyle = AdwdType.BodySmallStrong.copy(fontSize = 14.sp), height = 44.dp, modifier = Modifier.fillMaxWidth(),
+            )
+        } else if (resolved == null) {
+            Text(
+                "평소 동선으로 돌아오면 경보가 자동으로 풀려요.",
+                style = AdwdType.Caption, color = AdwdColors.Slate,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
             )
         } else {
             Row(

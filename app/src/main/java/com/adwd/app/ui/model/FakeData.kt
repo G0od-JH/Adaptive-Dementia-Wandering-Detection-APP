@@ -24,7 +24,7 @@ object FakeData {
         AlertRecord(1, AlertLevel.WARNING, "경로 이탈", "14:32 · 15:05 귀가하여 해제", "오늘 · 11월 24일"),
         AlertRecord(2, AlertLevel.CAUTION, "경로 이탈", "14:28 · 2단계로 올라감", "오늘 · 11월 24일"),
         AlertRecord(3, AlertLevel.CAUTION, "심야 외출", "23:40 · 알고 있는 외출로 처리", "11월 22일"),
-        AlertRecord(4, AlertLevel.CAUTION, "같은 구역 반복", "16:10 · 어르신이 괜찮아요 누름", "11월 19일"),
+        AlertRecord(4, AlertLevel.CAUTION, "같은 구역 반복", "16:10 · 평소 동선으로 돌아와 해제", "11월 19일"),
     )
 
     /** 판단 이유 한 줄. kind로 아이콘을 고른다. */
@@ -97,9 +97,9 @@ object FakeData {
             listOf(
                 TimelineItem("15:50", AlertLevel.NORMAL, "산책 시작"),
                 TimelineItem("16:05", AlertLevel.CAUTION, "어르신께 귀가 안내 보냄"),
-                TimelineItem("16:10", AlertLevel.NORMAL, "어르신이 괜찮아요 누름"),
+                TimelineItem("16:10", AlertLevel.NORMAL, "평소 동선으로 돌아와 해제"),
             ),
-            resolved = "어르신이 괜찮아요 누름",
+            resolved = "평소 동선으로 돌아와 해제",
         ),
     )
 
@@ -108,16 +108,5 @@ object FakeData {
         "14:58" to "버스정류장 부근",
         "14:40" to "공원 동쪽 출입구",
         "14:20" to "집 출발",
-    )
-
-    /** 11 데모 패널의 판단 로그 */
-    val simLog = listOf(
-        "14:20 위치 (12,40) · 동선 안 · 정상" to 0,
-        "14:24 위치 (22,40) · 동선 거리 120m" to 0,
-        "14:28 경로이탈규칙 · 310m > 300m → 주의" to 1,
-        "14:28 알림 → 어르신 화면(귀가 안내)" to 1,
-        "14:30 위치 (30,52) · 동선 거리 380m" to 1,
-        "14:32 이탈 12분 > 10분 → 경고" to 2,
-        "14:32 알림 → 보호자" to 2,
     )
 }

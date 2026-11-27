@@ -48,7 +48,7 @@ internal fun GuardianScaffold(tab: GuardianTab, onTab: (GuardianTab) -> Unit, co
 
 /**
  * 05 보호자 홈(지도).
- * @param mapContent 지도 자리. 코드A의 지도 패널이 오면 여기에 넣는다.
+ * @param mapContent 지도 자리. 앱에서는 모의데이터 좌표로 그린 [com.adwd.app.ui.components.TrajectoryMap]을 넣는다.
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -87,7 +87,7 @@ fun GuardianHomeScreen(
             )
             Row(Modifier.align(Alignment.BottomStart).padding(10.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Legend("● 현재 위치", AdwdColors.Purple)
-                Legend("━ 학습된 동선", AdwdColors.Slate)
+                Legend("━ 오늘 이동 경로", AdwdColors.Slate)
             }
         }
         Spacer(Modifier.height(16.dp))
@@ -98,7 +98,7 @@ private fun statusText(level: AlertLevel, reason: String) = when (level) {
     AlertLevel.NORMAL -> "평소 산책 경로 안에 있어요"
     AlertLevel.CAUTION -> "$reason · 어르신께 귀가 안내 중"
     AlertLevel.WARNING -> "$reason · 눌러서 자세히 보기"
-    AlertLevel.DANGER -> "연락이 안 돼요 · 실종 신고 정보 보기"
+    AlertLevel.EMERGENCY -> "연락이 안 돼요 · 실종 신고 정보 보기"
 }
 
 @Composable

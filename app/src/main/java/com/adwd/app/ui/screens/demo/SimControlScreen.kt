@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.adwd.app.ui.components.AdwdIcons
 import com.adwd.app.ui.model.AlertLevel
-import com.adwd.app.ui.model.FakeData
 import com.adwd.app.ui.state.AdwdUiState
 import com.adwd.app.ui.state.SimScenario
 import com.adwd.app.ui.state.SimSpeed
@@ -40,8 +39,8 @@ import com.adwd.app.ui.theme.AdwdType
 
 /**
  * 11 시뮬레이션 데모 패널 (발표 시연용).
- * 시나리오·배속을 고르고, 경보 단계를 직접 바꿔서 어르신/보호자 화면 전환을 보여준다.
- * TODO(코드A): 시뮬레이션 시계·재생과 연결. TODO(코드B): 판단 로그를 엔진에서 받기
+ * 시나리오(모의데이터 CSV)를 재생하면 한 줄씩 C++ 엔진에 들어가고, 엔진이 바꾼 단계가 화면에 그대로 반영된다.
+ * 단계 버튼은 발표용 수동 전환이다 (엔진 판단과 별개).
  */
 @Composable
 fun SimControlScreen(
@@ -51,8 +50,8 @@ fun SimControlScreen(
     onTogglePlay: () -> Unit,
     onLevel: (AlertLevel) -> Unit,
     onBack: () -> Unit,
-    log: List<Pair<String, Int>> = FakeData.simLog,
 ) {
+    val log = state.log
     val mint = AdwdColors.Mint
     val section = AdwdType.LabelStrong.copy(letterSpacing = 0.7.sp)
     Column(
@@ -87,10 +86,16 @@ fun SimControlScreen(
                 Modifier.fillMaxWidth().height(72.dp).clip(RoundedCornerShape(12.dp)).background(mint.copy(alpha = 0.08f)).padding(horizontal = 14.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("${state.simDay}일차", style = AdwdType.BodySmallStrong, color = AdwdColors.Teal)
+                Text("샘플\n${state.simDay}일차", style = AdwdType.BodySmallStrong, color = AdwdColors.Teal)
                 Spacer(Modifier.width(10.dp))
                 Text(state.simTime, style = AdwdType.ElderClock.copy(fontSize = 40.sp, lineHeight = 48.sp, letterSpacing = (-0.8).sp), color = AdwdColors.White, modifier = Modifier.weight(1f))
-                Text("학습 30일 + 시연 1일", style = AdwdType.Caption, color = mint)
+                Text("학습 7일 + 시연 1일", style = AdwdType.Caption, color = mint)
+            }
+
+            Spacer(Modifier.height(8.dp))
+            Text(state.engineStatus, style = AdwdType.Caption, color = mint)
+            if (state.usingFallbackData) {
+                Text("이 시나리오 데이터가 아직 없어서 샘플 1일치로 재생 중", style = AdwdType.Caption, color = AdwdColors.Level1)
             }
 
             Spacer(Modifier.height(18.dp))
@@ -102,7 +107,7 @@ fun SimControlScreen(
             }
 
             Spacer(Modifier.height(18.dp))
-            Text("현재 경보 단계", style = section, color = AdwdColors.Teal)
+            Text("현재 경보 단계 (눌러서 수동 전환)", style = section, color = AdwdColors.Teal)
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 AlertLevel.entries.forEach { l ->
@@ -121,6 +126,7 @@ fun SimControlScreen(
             ) {
                 Text("판단 로그", style = section, color = AdwdColors.Teal)
                 Spacer(Modifier.height(8.dp))
+                if (log.isEmpty()) Text("아직 기록 없음", style = AdwdType.Tab, color = mint)
                 log.forEach { (line, lv) ->
                     val warn = lv >= 2
                     Text(

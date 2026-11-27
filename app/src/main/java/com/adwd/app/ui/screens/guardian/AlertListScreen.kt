@@ -61,7 +61,7 @@ fun AlertListScreen(
         Spacer(Modifier.height(14.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             FilterChip("전체", filter == null, { filter = null })
-            listOf(AlertLevel.CAUTION, AlertLevel.WARNING, AlertLevel.DANGER).forEach { l ->
+            listOf(AlertLevel.CAUTION, AlertLevel.WARNING, AlertLevel.EMERGENCY).forEach { l ->
                 FilterChip(l.title, filter == l.step, { filter = l.step })
             }
         }

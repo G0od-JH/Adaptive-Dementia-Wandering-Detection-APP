@@ -60,7 +60,7 @@ enum class PlacesMode { SETUP, MANAGE }
 
 /**
  * 04-1 자주 가는 장소 등록 (콜드 스타트 대비).
- * 연동이 끝나면 보호자가 어르신의 집과 자주 가는 곳을 적는다. 동선을 배우는 처음 30일 동안
+ * 연동이 끝나면 보호자가 어르신의 집과 자주 가는 곳을 적는다. 동선을 배우는 처음 7일 동안
  * 코드B가 이 장소들을 "평소 가는 곳"으로 본다. 장소는 원하는 만큼 추가·삭제할 수 있고, 집은 꼭 하나 있어야 한다.
  */
 @Composable
@@ -86,7 +86,7 @@ fun PlacesScreen(
                 Spacer(Modifier.height(8.dp))
             }
             Text(
-                "처음 30일은 평소 동선을 배우는 기간이에요. 그동안은 여기 적은 장소를 기준으로 판단해요.",
+                "처음 7일은 평소 동선을 배우는 기간이에요. 그동안은 여기 적은 장소를 기준으로 판단해요.",
                 style = AdwdType.BodySmall, color = AdwdColors.Slate,
             )
             Spacer(Modifier.height(14.dp))

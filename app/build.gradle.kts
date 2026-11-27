@@ -14,6 +14,26 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "0.1.0"
+
+        // C++ 엔진 빌드 대상 (에뮬레이터 x86_64 + 실제 폰 arm64)
+        ndk {
+            abiFilters += listOf("arm64-v8a", "x86_64")
+        }
+    }
+
+    // C++ 판단 엔진(레포 루트 src/)을 JNI 라이브러리로 같이 빌드. 연결 코드는 src/main/cpp/
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
+
+    // 모의데이터 CSV(레포 루트 data/)를 앱 assets로 그대로 넣는다
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs("../data")
+        }
     }
 
     buildTypes {
